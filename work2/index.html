@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Quiz</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@3.7.4/dist/vuetify.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@3.7.4/dist/vuetify.min.js"></script>
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff; /* เปลี่ยนตัวหนังสือทั้งหมดให้เป็นสีขาว */
+            font-family: 'Arial', sans-serif;
+        }
+        h1, h2, p, strong {
+            color: #ffffff; /* เปลี่ยนสีของหัวข้อและตัวหนังสือที่เน้นให้เป็นสีขาว */
+        }
+        .quiz-container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            background-color: #1e1e1e;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+        .question {
+            color: #ffffff; /* เปลี่ยนสีคำถามเป็นสีขาว */
+        }
+        .answer {
+            color: #ffffff; /* เปลี่ยนสีคำตอบเป็นสีขาว */
+        }
+        .my-2 {
+            margin: 10px 0;
+        }
+        .my-1 {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <v-app>
+            <v-container class="quiz-container">
+                <div v-if="page === 1">
+                    <h1>แบบทดสอบออนไลน์</h1>
+                    <p>ยินดีต้อนรับสู่แบบทดสอบ! กรุณาเลือกเริ่มต้นเพื่อทำข้อสอบ.</p>
+                    <v-btn color="yellow darken-1" class="my-2" @click="page = 2">เริ่มทำแบบทดสอบ</v-btn>
+                </div>
+                <div v-if="page === 2">
+                    <h2>แบบทดสอบ</h2>
+                    <div v-for="(q, i) in qlist" :key="i" class="pa-4">
+                        <div>
+                            <strong class="question">ข้อที่ {{ i + 1 }}:</strong>
+                            <div v-html="q.title" class="question my-2"></div>
+                        </div>
+                        <v-radio-group v-model="answers[i]" class="my-2">
+                            <v-radio
+                                v-for="(option, index) in q.options"
+                                :key="index"
+                                :label="option"
+                                :value="index + 1"
+                                class="answer my-1"
+                            ></v-radio>
+                        </v-radio-group>
+                    </div>
+                    <v-btn :disabled="!validate()" color="green darken-2" class="my-2" @click="grading">ตรวจคำตอบ</v-btn>
+                </div>
+                <div v-if="page === 3">
+                    <h2>ผลคะแนนของคุณ</h2>
+                    <p>คุณได้คะแนน {{ score }}/{{ qlist.length }}</p>
+                    <v-btn color="yellow darken-1" class="my-2" @click="restart">ลองทำใหม่อีกครั้ง</v-btn>
+                </div>
+            </v-container>
+        </v-app>
+    </div>
+
+    <script src="./app.js"></script>
+</body>
+</html>
