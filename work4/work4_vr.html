@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>My 3D Model</title>
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+</head>
+
+<body>
+    <a-scene>
+        <!-- พื้นหลัง -->
+        <a-sky id="panorama" src="https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwcm9maWxlLXBhZ2V8MTF8fHxlbnwwfHx8fHw%3D"></a-sky>
+
+        <!-- โหลดโมเดล -->
+        <a-assets>
+            <a-asset-item id="avatar-model" src="Rigged Astronaut.glb"></a-asset-item>
+        </a-assets>
+
+        <!-- นักบินอวกาศ -->
+        <a-entity 
+            gltf-model="#avatar-model" 
+            scale="2 2 2" 
+            position="0 0.45905 -4.41752" 
+            animation-mixer="clip: *">
+        </a-entity>
+
+        <!-- วงโคจรสำหรับดาว -->
+        <a-entity 
+            id="orbit" 
+            position="0 1 -4.41752" 
+            rotation="0 0 0" 
+            animation="property: rotation; to: 0 360 0; dur: 5000; loop: true; easing: linear">
+            
+            <!-- ดาว -->
+            <a-sphere 
+                color="#FFD700" 
+                radius="0.1" 
+                position="1 0 0">
+            </a-sphere>
+
+            <a-sphere 
+                color="#FF4500" 
+                radius="0.15" 
+                position="-1 0.5 0.5">
+            </a-sphere>
+
+            <a-sphere 
+                color="#1E90FF" 
+                radius="0.12" 
+                position="0 -0.5 -1">
+            </a-sphere>
+        </a-entity>
+
+        <!-- ข้อความ -->
+        <a-text 
+            value="Name: Nattapat Prachumwong\nID: 663380002-9\nAbd" 
+            color="#ffffff" 
+            position="0 0 -3" 
+            width="4" 
+            align="center">
+        </a-text>
+    </a-scene>
+</body>
+
+</html>
