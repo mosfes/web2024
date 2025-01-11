@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="th">
+  <head>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  </head>
+  <body>
+    <div id="myapp" class="container p-4"></div>
+    <script type="text/babel">
+      const quizData = [
+        {
+          subject: "คณิตศาสตร์",
+          questions: [
+            { question: "2 + 2 เท่ากับเท่าไหร่?", options: ["3", "4", "5", "6"], correct: 1 },
+            { question: "5 x 3 เท่ากับเท่าไหร่?", options: ["8", "15", "10", "12"], correct: 1 },
+            { question: "รากที่สองของ 16 คืออะไร?", options: ["2", "3", "4", "5"], correct: 2 },
+            { question: "10 - 4 เท่ากับเท่าไหร่?", options: ["6", "5", "4", "7"], correct: 0 },
+            { question: "3 x 3 เท่ากับเท่าไหร่?", options: ["6", "9", "12", "15"], correct: 1 },
+            { question: "15 / 3 เท่ากับเท่าไหร่?", options: ["3", "5", "6", "4"], correct: 1 },
+            { question: "7 + 8 เท่ากับเท่าไหร่?", options: ["14", "15", "16", "17"], correct: 1 },
+            { question: "9 - 5 เท่ากับเท่าไหร่?", options: ["3", "4", "5", "6"], correct: 1 },
+            { question: "4 x 4 เท่ากับเท่าไหร่?", options: ["12", "14", "16", "18"], correct: 2 },
+            { question: "100 / 10 เท่ากับเท่าไหร่?", options: ["8", "10", "12", "15"], correct: 1 },
+            { question: "12 + 8 เท่ากับเท่าไหร่?", options: ["18", "19", "20", "21"], correct: 2 },
+            { question: "20 - 5 เท่ากับเท่าไหร่?", options: ["14", "15", "16", "17"], correct: 1 },
+            { question: "6 x 7 เท่ากับเท่าไหร่?", options: ["40", "42", "44", "46"], correct: 1 },
+            { question: "81 / 9 เท่ากับเท่าไหร่?", options: ["8", "9", "10", "11"], correct: 1 },
+            { question: "2 ยกกำลัง 3 เท่ากับเท่าไหร่?", options: ["6", "8", "10", "12"], correct: 1 },
+            { question: "50 - 25 เท่ากับเท่าไหร่?", options: ["20", "25", "30", "35"], correct: 1 },
+            { question: "7 x 8 เท่ากับเท่าไหร่?", options: ["54", "56", "58", "60"], correct: 1 },
+            { question: "36 / 6 เท่ากับเท่าไหร่?", options: ["5", "6", "7", "8"], correct: 1 },
+            { question: "9 + 6 เท่ากับเท่าไหร่?", options: ["14", "15", "16", "17"], correct: 1 },
+            { question: "100 - 50 เท่ากับเท่าไหร่?", options: ["40", "50", "60", "70"], correct: 1 }
+          ]
+        },
+        {
+          subject: "วิทยาศาสตร์",
+          questions: [
+            { question: "ดาวเคราะห์ดวงใดเรียกว่าดาวเคราะห์สีแดง?", options: ["โลก", "ดาวอังคาร", "ดาวพฤหัสบดี", "ดาวเสาร์"], correct: 1 },
+            { question: "H2O คืออะไร?", options: ["ออกซิเจน", "ไฮโดรเจน", "น้ำ", "เกลือ"], correct: 2 },
+            { question: "พืชดูดก๊าซอะไร?", options: ["ออกซิเจน", "ไนโตรเจน", "คาร์บอนไดออกไซด์", "ฮีเลียม"], correct: 2 },
+            { question: "ดาวเคราะห์ที่ใหญ่ที่สุดในระบบสุริยะคืออะไร?", options: ["โลก", "ดาวพฤหัสบดี", "ดาวเสาร์", "ดาวอังคาร"], correct: 1 },
+            { question: "แรงอะไรที่ดึงวัตถุเข้าหาโลก?", options: ["แรงแม่เหล็ก", "แรงโน้มถ่วง", "แรงเสียดทาน", "แรงไฟฟ้า"], correct: 1 },
+            { question: "ศูนย์กลางของอะตอมเรียกว่าอะไร?", options: ["อิเล็กตรอน", "โปรตอน", "นิวเคลียส", "นิวตรอน"], correct: 2 },
+            { question: "ดาวเคราะห์ที่ใกล้ดวงอาทิตย์ที่สุดคืออะไร?", options: ["โลก", "ดาวพุธ", "ดาวศุกร์", "ดาวอังคาร"], correct: 1 },
+            { question: "สัญลักษณ์ทางเคมีของทองคืออะไร?", options: ["Gd", "Ag", "Au", "Ga"], correct: 2 },
+            { question: "อะไรคือต้นกำลังของเซลล์?", options: ["นิวเคลียส", "ไมโทคอนเดรีย", "ไรโบโซม", "ผนังเซลล์"], correct: 1 },
+            { question: "กระบวนการที่พืชสร้างอาหารเรียกว่าอะไร?", options: ["การย่อยอาหาร", "การสังเคราะห์แสง", "การหายใจ", "การหมัก"], correct: 1 },
+            { question: "จุดเยือกแข็งของน้ำคืออะไร?", options: ["0°C", "100°C", "50°C", "-10°C"], correct: 0 },
+            { question: "ดาวเคราะห์ดวงใดมีวงแหวน?", options: ["โลก", "ดาวอังคาร", "ดาวเสาร์", "ดาวศุกร์"], correct: 2 },
+            { question: "จุดเดือดของน้ำคืออะไร?", options: ["0°C", "50°C", "100°C", "200°C"], correct: 2 },
+            { question: "อวัยวะที่ใหญ่ที่สุดในร่างกายมนุษย์คืออะไร?", options: ["หัวใจ", "สมอง", "ผิวหนัง", "ตับ"], correct: 2 },
+            { question: "มนุษย์ปล่อยก๊าซอะไรออกมา?", options: ["ออกซิเจน", "คาร์บอนไดออกไซด์", "ไนโตรเจน", "ฮีเลียม"], correct: 1 },
+            { question: "หน่วยพื้นฐานของชีวิตคืออะไร?", options: ["เนื้อเยื่อ", "อวัยวะ", "เซลล์", "สิ่งมีชีวิต"], correct: 2 },
+            { question: "DNA ย่อมาจากอะไร?", options: ["กรดดีออกซีไรโบนิวคลีอิก", "การวิเคราะห์นิวรอนเชิงพลวัต", "กรดไดอะตอมมิกนิวคลีอิก", "ไม่มีข้อใดถูก"], correct: 0 },
+            { question: "ดาวเคราะห์ที่อยู่ไกลจากดวงอาทิตย์ที่สุดคืออะไร?", options: ["ดาวอังคาร", "ดาวเนปจูน", "ดาวเสาร์", "ดาวพฤหัสบดี"], correct: 1 },
+            { question: "ส่วนใดของพืชที่ใช้สังเคราะห์แสง?", options: ["ลำต้น", "ราก", "ใบ", "ดอก"], correct: 2 },
+            { question: "หน่วยที่เล็กที่สุดของสสารคืออะไร?", options: ["อะตอม", "โมเลกุล", "สารประกอบ", "อนุภาค"], correct: 0 }
+          ]
+        }
+      ];
+
+      class QuizApp extends React.Component {
+        constructor() {
+          super();
+          this.state = {
+            currentScreen: "start",
+            selectedSubject: null,
+            currentQuestionIndex: 0,
+            answers: [],
+            score: 0,
+          };
+        }
+
+        startQuiz = (subject) => {
+          this.setState({ currentScreen: "quiz", selectedSubject: subject });
+        };
+
+        handleAnswer = (optionIndex) => {
+          const { selectedSubject, currentQuestionIndex, answers } = this.state;
+          const questions = quizData.find((q) => q.subject === selectedSubject).questions;
+
+          answers[currentQuestionIndex] = optionIndex;
+          this.setState({ answers });
+
+          if (currentQuestionIndex + 1 < questions.length) {
+            this.setState({ currentQuestionIndex: currentQuestionIndex + 1 });
+          } else {
+            this.calculateScore();
+          }
+        };
+
+        calculateScore = () => {
+          const { selectedSubject, answers } = this.state;
+          const questions = quizData.find((q) => q.subject === selectedSubject).questions;
+
+          let score = 0;
+          answers.forEach((answer, index) => {
+            if (questions[index].correct === answer) {
+              score++;
+            }
+          });
+
+          this.setState({ score, currentScreen: "result" });
+        };
+
+        renderStartScreen = () => {
+          return (
+            <div>
+              <h2>ยินดีต้อนรับสู่แอปแบบทดสอบ</h2>
+              <p>กรุณาเลือกวิชาเพื่อเริ่มทำแบบทดสอบ:</p>
+              {quizData.map((subject, index) => (
+                <button
+                  key={index}
+                  className="btn btn-primary m-2"
+                  onClick={() => this.startQuiz(subject.subject)}
+                >
+                  {subject.subject}
+                </button>
+              ))}
+            </div>
+          );
+        };
+
+        renderQuizScreen = () => {
+          const { selectedSubject, currentQuestionIndex } = this.state;
+          const questions = quizData.find((q) => q.subject === selectedSubject).questions;
+          const question = questions[currentQuestionIndex];
+
+          return (
+            <div>
+              <h3>{question.question}</h3>
+              <ul className="list-group">
+                {question.options.map((option, index) => (
+                  <li
+                    key={index}
+                    className="list-group-item list-group-item-action"
+                    onClick={() => this.handleAnswer(index)}
+                  >
+                    {option}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          );
+        };
+
+        renderResultScreen = () => {
+          return (
+            <div>
+              <h2>คะแนนของคุณ: {this.state.score}</h2>
+              <button
+                className="btn btn-primary"
+                onClick={() => this.setState({ currentScreen: "start", answers: [], currentQuestionIndex: 0, score: 0 })}
+              >
+                เริ่มทำแบบทดสอบใหม่
+              </button>
+            </div>
+          );
+        };
+
+        render() {
+          const { currentScreen } = this.state;
+
+          return (
+            <div className="card">
+              <div className="card-header">แอปพลิเคชันแบบทดสอบ</div>
+              <div className="card-body">
+                {currentScreen === "start" && this.renderStartScreen()}
+                {currentScreen === "quiz" && this.renderQuizScreen()}
+                {currentScreen === "result" && this.renderResultScreen()}
+              </div>
+              <div className="card-footer">Nattapat Prachumwong 663380002-9</div>
+            </div>
+          );
+        }
+      }
+
+      const container = document.getElementById("myapp");
+      const root = ReactDOM.createRoot(container);
+      root.render(<QuizApp />);
+    </script>
+  </body>
+</html>
