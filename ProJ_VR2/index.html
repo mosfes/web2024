@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.5.2/dist/aframe-extras.min.js"></script>
+    <style>
+        .background-svg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        .info-box {
+            position: absolute;
+            bottom: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 16px;
+            max-width: 90%;
+            text-align: center;
+            display: none;
+            z-index: 10;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="info-box" id="info-box">
+        <p id="info-text">Click on a planet to see details!</p>
+    </div>
+
+    <a-scene background="src: ./model/hiptyc_2020_32k.exr" touch-controls="enabled: true">
+        <a-assets>
+            <a-asset-item id="sun" src="./model/sun.glb"></a-asset-item>
+            <a-asset-item id="mercury" src="./model/mercury.glb"></a-asset-item>
+            <a-asset-item id="venus" src="./model/venus.glb"></a-asset-item>
+            <a-asset-item id="earth" src="./model/earth_and_clouds.glb"></a-asset-item>
+            <a-asset-item id="moon" src="./model/moon.glb"></a-asset-item>
+            <a-asset-item id="mars" src="./model/mars.glb"></a-asset-item>
+            <a-asset-item id="jupiter" src="./model/jupiter.glb"></a-asset-item>
+            <a-asset-item id="saturn" src="./model/saturn.glb"></a-asset-item>
+            <a-asset-item id="uranus" src="./model/uranus.glb"></a-asset-item>
+            <a-asset-item id="neptune" src="./model/neptune.glb"></a-asset-item>
+            
+            <!-- เสียงพากย์ -->
+            <audio id="sun-audio" src="./audio/sun.mp3"></audio>
+            <audio id="mercury-audio" src="./audio/mercury.mp3"></audio>
+            <audio id="venus-audio" src="./audio/venus.mp3"></audio>
+            <audio id="earth-audio" src="./audio/earth.mp3"></audio>
+            <audio id="moon-audio" src="./audio/moon.mp3"></audio>
+            <audio id="mars-audio" src="./audio/mars.mp3"></audio>
+
+            <audio id="jupiter-audio" src="./audio/jupiter.mp3"></audio>
+            <audio id="saturn-audio" src="./audio/saturn.mp3"></audio>
+            <audio id="uranus-audio" src="./audio/uranus.mp3"></audio>
+            <audio id="neptune-audio" src="./audio/neptune.mp3"></audio>
+        </a-assets>
+
+        <!-- กล้อง -->
+        <a-entity 
+            camera 
+            wasd-controls="acceleration: 100" 
+            look-controls="pointerLockEnabled: false" 
+            fly-controls="movementEnabled: true; speed: 10; flyUpKey: space; flyDownKey: shift" 
+            position="0 1.6 5">
+        </a-entity>
+
+        <a-sky src="./model/hiptyc_2020_16k.jpg"></a-sky>
+
+        <!-- พื้นหลัง space -->
+        <a-entity gltf-model="#space" scale="100 100 100" position="0 0 0"></a-entity>
+
+        <!-- ระบบสุริยะ -->
+        <a-entity position="0 0 -50">
+            <!-- ดวงอาทิตย์ -->
+            <a-entity gltf-model="#sun" position="0 0 0" scale="1.2 1.2 1.2"
+                class="clickable"
+                onclick="showInfo('ดวงอาทิตย์ (Sun)', 'ดวงอาทิตย์เป็นดาวฤกษ์ที่อยู่ใจกลางระบบสุริยะ มีมวลประมาณ 99.8% ของมวลทั้งหมดในระบบสุริยะ ทำให้มีแรงโน้มถ่วงที่ดึงดูดดาวเคราะห์และวัตถุอื่นๆ ให้อยู่ในวงโคจร ดวงอาทิตย์สร้างพลังงานผ่านกระบวนการนิวเคลียร์ฟิวชันที่เปลี่ยนไฮโดรเจนให้เป็นฮีเลียม ส่งผลให้เกิดแสงและความร้อนที่ช่วยหล่อเลี้ยงสิ่งมีชีวิตบนโลก', 'sun-audio')"
+                animation="property: rotation; to: 0 360 0; loop: true; dur: 60000; easing: linear">
+                <a-light type="point" intensity="1.0" position="0 0 0" color="#fde0dc" distance="10000" decay="2"></a-light>
+            </a-entity>
+
+            <!-- ดาวพุธ -->
+            <a-entity animation="property: rotation; to: 0 360 0; loop: true; dur: 20000; easing: linear">
+                <a-entity gltf-model="#mercury" position="24 0 0" scale="0.02 0.02 0.02"
+                    class="clickable"
+                    onclick="showInfo('ดาวพุธ (Mercury)', 'ดาวพุธเป็นดาวเคราะห์ที่ใกล้ดวงอาทิตย์ที่สุดในระบบสุริยะ มีเส้นผ่านศูนย์กลางเพียง 4,880 กิโลเมตร และไม่มีบรรยากาศที่หนาแน่นเพียงพอที่จะกักเก็บความร้อน พื้นผิวของดาวพุธเต็มไปด้วยหลุมอุกกาบาตที่เกิดจากการชนของวัตถุในอดีต อุณหภูมิในตอนกลางวันสูงถึง 430°C แต่ในตอนกลางคืนลดลงต่ำสุดถึง -180°C เนื่องจากไม่มีชั้นบรรยากาศป้องกัน', 'mercury-audio')">
+                </a-entity>
+            </a-entity>
+
+            <!-- ดาวศุกร์ -->
+            <a-entity animation="property: rotation; to: 0 360 0; loop: true; dur: 40000; easing: linear">
+                <a-entity gltf-model="#venus" position="48 0 0" scale="0.05 0.05 0.05"
+                    class="clickable"
+                    onclick="showInfo('ดาวศุกร์ (Venus)', 'ดาวศุกร์เป็นดาวเคราะห์ลำดับที่สองจากดวงอาทิตย์ และมักถูกเรียกว่า ฝาแฝดของโลก เนื่องจากมีขนาดและมวลใกล้เคียงกับโลก แต่บรรยากาศของดาวศุกร์หนาแน่นไปด้วยก๊าซคาร์บอนไดออกไซด์ซึ่งทำให้เกิดปรากฏการณ์เรือนกระจกอย่างรุนแรง อุณหภูมิพื้นผิวเฉลี่ยสูงถึง 465°C และมีเมฆที่ประกอบด้วยกรดซัลฟิวริกซึ่งสะท้อนแสงจากดวงอาทิตย์ได้ดี', 'venus-audio')">
+                </a-entity>
+            </a-entity>
+
+            <!-- โลก -->
+            <a-entity animation="property: rotation; to: 0 360 0; loop: true; dur: 60000; easing: linear">
+                <a-entity position="56 0 0">
+                    <a-entity gltf-model="#earth" scale="0.07 0.07 0.07" 
+                        animation="property: rotation; to: 0 -360 0; loop: true; dur: 80000; easing: linear"
+                        class="clickable"
+                        onclick="showInfo('โลก (Earth)', 'โลกเป็นดาวเคราะห์ลำดับที่สามจากดวงอาทิตย์และเป็นที่อยู่อาศัยของสิ่งมีชีวิตนับล้านสายพันธุ์ มีน้ำในสถานะของเหลวปกคลุมพื้นผิวประมาณ 70% บรรยากาศประกอบด้วยไนโตรเจนและออกซิเจนเป็นหลัก ซึ่งช่วยสนับสนุนการดำรงชีวิตของสิ่งมีชีวิต โลกมีชั้นโอโซนที่ช่วยกรองรังสีอัลตราไวโอเลตจากดวงอาทิตย์ และสนามแม่เหล็กโลกที่ป้องกันอนุภาคอันตรายจากลมสุริยะ', 'earth-audio')">
+                    </a-entity>
+
+                    <!-- ดวงจันทร์ -->
+                    <a-entity animation="property: rotation; to: 0 360 0; loop: true; dur: 90000; easing: linear">
+                        <a-entity gltf-model="#moon" position="8 0 0" scale="0.01 0.01 0.01"
+                            onclick="showInfo('ดวงจันทร์ (Moon)', 'ดวงจันทร์เป็นบริวารธรรมชาติของโลก มีเส้นผ่านศูนย์กลางประมาณ 3,474 กิโลเมตร พื้นผิวของดวงจันทร์เต็มไปด้วยหลุมอุกกาบาต ภูเขา และที่ราบขนาดใหญ่ที่เกิดจากลาวาในอดีต ดวงจันทร์ส่งผลต่อกระแสน้ำขึ้น-ลงบนโลก และมีอิทธิพลต่อวัฏจักรของธรรมชาติ เช่น ฤดูกาล ความสว่างของดวงจันทร์ในตอนกลางคืนเกิดจากการสะท้อนแสงจากดวงอาทิตย์', 'moon-audio')">
+                        </a-entity>
+                    </a-entity>
+                </a-entity>
+            </a-entity>
+
+            <!-- ดาวอังคาร -->
+            <a-entity animation="property: rotation; to: 0 360 0; loop: true; dur: 80000; easing: linear">
+                <a-entity gltf-model="#mars" position="56 0 0" scale="0.04 0.04 0.04"
+                    class="clickable"
+                    onclick="showInfo('ดาวอังคาร (Mars)', 'ดาวอังคารหรือที่รู้จักในชื่อ ดาวเคราะห์สีแดง เป็นดาวเคราะห์ที่มีขนาดเล็กกว่าครึ่งหนึ่งของโลก มีพื้นผิวที่ปกคลุมด้วยธาตุเหล็กออกไซด์ซึ่งทำให้มีสีแดงสดใส ดาวอังคารมีภูเขาไฟที่ใหญ่ที่สุดในระบบสุริยะชื่อ Olympus Mons และหุบเขา Valles Marineris ที่ยาวถึง 4,000 กิโลเมตร นักวิทยาศาสตร์เชื่อว่าในอดีตดาวอังคารเคยมีน้ำในรูปแบบของเหลว และอาจมีสิ่งมีชีวิตในระดับจุลินทรีย์', 'mars-audio')">
+                </a-entity>
+            </a-entity>
+
+            <!-- ดาวพฤหัส -->
+            <a-entity animation="property: rotation; to: 0 360 0; loop: true; dur: 120000; easing: linear">
+                <a-entity gltf-model="#jupiter" position="-80 0 0" scale="0.2 0.2 0.2"
+                    class="clickable"
+                    onclick="showInfo('ดาวพฤหัส (Jupiter)', 'ดาวพฤหัสเป็นดาวเคราะห์ที่ใหญ่ที่สุดในระบบสุริยะ มีมวลมากกว่าดาวเคราะห์อื่นๆ รวมกันถึง 2.5 เท่า มีพายุขนาดใหญ่ชื่อ Great Red Spot ซึ่งหมุนอยู่มานานกว่า 300 ปี', 'jupiter-audio')">
+                </a-entity>
+            </a-entity>
+
+            <!-- ดาวเสาร์ -->
+            <a-entity animation="property: rotation; to: 0 360 0; loop: true; dur: 160000; easing: linear">
+                <a-entity gltf-model="#saturn" position="-112 0 0" scale="0.01 0.01 0.01"
+                    class="clickable"
+                    onclick="showInfo('ดาวเสาร์ (Saturn)', 'ดาวเสาร์เป็นดาวเคราะห์ที่มีวงแหวนโดดเด่นที่สุดในระบบสุริยะ วงแหวนประกอบด้วยอนุภาคน้ำแข็งและฝุ่น ดาวเสาร์มีดาวบริวารจำนวนมากรวมถึง Titan ซึ่งใหญ่กว่าดาวพุธ', 'saturn-audio')">
+                </a-entity>
+            </a-entity>
+
+            <!-- ดาวยูเรนัส -->
+            <a-entity animation="property: rotation; to: 0 360 0; loop: true; dur: 200000; easing: linear">
+                <a-entity gltf-model="#uranus" position="-144 0 0" scale="0.005 0.005 0.005"
+                    class="clickable"
+                    onclick="showInfo('ดาวยูเรนัส (Uranus)', 'ดาวยูเรนัสเป็นดาวเคราะห์ที่มีแกนหมุนเอียงมากถึง 98 องศา มีชั้นบรรยากาศที่เต็มไปด้วยก๊าซมีเธนซึ่งทำให้มีสีฟ้าอ่อน', 'uranus-audio')">
+                </a-entity>
+            </a-entity>
+
+            <!-- ดาวเนปจูน -->
+            <a-entity animation="property: rotation; to: 0 360 0; loop: true; dur: 240000; easing: linear">
+                <a-entity gltf-model="#neptune" position="-168 0 0" scale="0.05 0.05 0.05"
+                    class="clickable"
+                    onclick="showInfo('ดาวเนปจูน (Neptune)', 'ดาวเนปจูนเป็นดาวเคราะห์ที่อยู่ไกลที่สุดจากดวงอาทิตย์ มีลมที่เร็วที่สุดในระบบสุริยะ โดยสามารถมีความเร็วได้มากกว่า 2,100 กิโลเมตรต่อชั่วโมง', 'neptune-audio')">
+                </a-entity>
+            </a-entity>
+        </a-entity>
+
+            <!-- หลุมดำ -->
+            <a-entity animation="property: rotation; to: 0 0 0; loop: true; dur: 240000; easing: linear">
+                <a-entity gltf-model="#blackhole" position="-300 0 0" scale="0.07 0.07 0.07"></a-entity>
+            </a-entity>
+        </a-entity>
+
+        <!-- คำสั่งสำหรับ cursor -->
+        <a-entity cursor="rayOrigin: mouse"></a-entity>
+        <!-- เพิ่ม entity สำหรับระบบดาว -->
+        <a-entity star-system></a-entity>
+        
+        <!-- ปรับ a-sky ให้เป็นสีดำเข้ม -->
+        <a-sky color="#000000"></a-sky>
+        
+    </a-scene>
+
+    <script>
+        const infoBox = document.getElementById('info-box');
+        const infoText = document.getElementById('info-text');
+        let currentPlanet = null; // ตัวแปรเก็บสถานะดาวเคราะห์ที่กำลังแสดงข้อมูลอยู่
+        let currentAudio = null; // ตัวแปรเก็บสถานะเสียงที่กำลังเล่น
+
+        function showInfo(title, description, audioId) {
+            const audio = document.getElementById(audioId);
+
+            if (currentPlanet === title) {
+                // ถ้าคลิกดาวดวงเดิม ให้ปิดข้อมูลและหยุดเสียง
+                infoBox.style.display = 'none';
+                if (currentAudio) {
+                    currentAudio.pause();
+                    currentAudio.currentTime = 0;
+                }
+                currentPlanet = null;
+                currentAudio = null;
+            } else {
+                // ถ้าคลิกดาวดวงใหม่ หรือยังไม่มีข้อมูลแสดง
+                infoText.innerHTML = `<strong>${title}</strong><br>${description}`;
+                infoBox.style.display = 'block';
+                currentPlanet = title;
+
+                // หยุดเสียงก่อนหน้า (ถ้ามี)
+                if (currentAudio) {
+                    currentAudio.pause();
+                    currentAudio.currentTime = 0;
+                }
+
+                // เล่นเสียงใหม่
+                currentAudio = audio;
+                currentAudio.play();
+            }
+        }
+    </script>
+    <script>
+        AFRAME.registerComponent('star-system', {
+          init: function () {
+            // สร้าง particle geometry
+            const particles = new THREE.BufferGeometry();
+            const particleCount = 10000;
+      
+            const positions = new Float32Array(particleCount * 3);
+            const colors = new Float32Array(particleCount * 3);
+      
+            // สร้างดาวแต่ละดวง
+            for (let i = 0; i < particleCount; i++) {
+              // สุ่มตำแหน่งในรูปทรงกลม
+              const radius = 500;
+              const theta = THREE.MathUtils.randFloat(0, Math.PI * 2); // มุม theta เป็น 0 ถึง 2π
+              const phi = Math.acos(THREE.MathUtils.randFloat(-1, 1)); // มุม phi เป็น 0 ถึง π
+      
+              const x = radius * Math.sin(phi) * Math.cos(theta);
+              const y = radius * Math.sin(phi) * Math.sin(theta);
+              const z = radius * Math.cos(phi);
+      
+              positions[i * 3] = x;
+              positions[i * 3 + 1] = y;
+              positions[i * 3 + 2] = z;
+      
+              // สุ่มสีของดาว (ขาว-ฟ้าอ่อน)
+              const randomColor = THREE.MathUtils.randFloat(0.9, 1);
+              colors[i * 3] = randomColor; // R
+              colors[i * 3 + 1] = randomColor; // G
+              colors[i * 3 + 2] = 1; // B (ค่า Blue เท่ากับ 1)
+            }
+      
+            particles.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            particles.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+      
+            // สร้าง material สำหรับดาว
+            const material = new THREE.PointsMaterial({
+              size: 1.5, // ขนาดของจุดดาว
+              vertexColors: true,
+              transparent: true,
+              opacity: 0.8,
+            });
+      
+            // สร้าง particle system
+            this.particleSystem = new THREE.Points(particles, material);
+      
+            // เพิ่มเข้าไปใน scene
+            this.el.object3D.add(this.particleSystem);
+          },
+        });
+      </script>
+      <!-- script สำหรับ zoom controls -->
+    <script>
+        AFRAME.registerComponent('zoom-controls', {
+            init: function () {
+                window.addEventListener('wheel', (event) => {
+                    event.preventDefault();
+                    
+                    // ดึงตำแหน่งปัจจุบันของกล้อง
+                    const position = this.el.getAttribute('position');
+                    
+                    // กำหนดความเร็วในการซูม
+                    const zoomSpeed = 2;
+                    
+                    // คำนวณระยะทางใหม่
+                    const newZ = position.z + (event.deltaY > 0 ? zoomSpeed : -zoomSpeed);
+                    
+                    // จำกัดระยะซูม
+                    if (newZ > -200 && newZ < 200) {
+                        this.el.setAttribute('position', {
+                            x: position.x,
+                            y: position.y,
+                            z: newZ
+                        });
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
